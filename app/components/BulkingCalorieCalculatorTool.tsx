@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { ReactNode, useMemo, useState } from "react";
 
 type Units = "metric" | "imperial";
 type Sex = "male" | "female";
@@ -18,6 +18,11 @@ type BulkingPreset = {
   surplusPct: number;
   note: string;
   rowClass: string;
+};
+
+type FaqItem = {
+  question: string;
+  answer: ReactNode;
 };
 
 const ACTIVITY_LEVELS: ActivityLevel[] = [
@@ -70,6 +75,116 @@ const HOW_IT_WORKS_STEPS = [
     title: "Follow and Adjust",
     description:
       "Use the calorie and macro targets daily, then adjust by 100-150 kcal if your weekly weight trend is off target.",
+  },
+];
+
+const FAQ_ITEMS: FaqItem[] = [
+  {
+    question: "How does this calculator estimate bulking calories?",
+    answer:
+      "It estimates BMR with the Mifflin-St Jeor formula, multiplies by your activity factor to get maintenance, then adds your chosen surplus percentage.",
+  },
+  {
+    question: "What is a good surplus for a lean bulk?",
+    answer:
+      "Most people start with a 5-10% surplus over maintenance. Use 5% if you prioritize minimizing fat gain and 10% for faster scale progress.",
+  },
+  {
+    question: "What weekly weight gain should I aim for while bulking?",
+    answer:
+      "A common target is around 0.25-0.5% of body weight per week. Beginners can often tolerate slightly faster gain than advanced lifters.",
+  },
+  {
+    question: "How often should I adjust my calories?",
+    answer:
+      "Review your 2-3 week average trend. If weight is not rising enough, add 100-150 kcal/day. If weight rises too quickly, reduce by 100-150 kcal/day.",
+  },
+  {
+    question: "Are the macros in this tool exact prescriptions?",
+    answer:
+      "No. They are a practical starting point. Keep protein consistent, keep fat above your minimum, and adjust carbs based on training demand and appetite.",
+  },
+  {
+    question: "What if I miss my calorie target on some days?",
+    answer:
+      "Consistency over weekly averages matters more than one day. Focus on hitting your weekly intake trend rather than perfection every day.",
+  },
+  {
+    question: "Should I eat the same calories on rest days?",
+    answer:
+      "You can. Many people keep calories stable for simplicity. Others lower carbs slightly on rest days and keep weekly intake roughly the same.",
+  },
+  {
+    question: "Can I use this if I train for sports, not bodybuilding?",
+    answer:
+      "Yes. The same calorie-surplus logic applies. Just match your activity level to your true weekly workload and monitor your performance and recovery.",
+  },
+  {
+    question: "Does cardio ruin a bulk?",
+    answer:
+      "No. Moderate cardio can support recovery and work capacity. Just account for the extra energy expenditure so your weekly surplus remains adequate.",
+  },
+  {
+    question: "Why does my maintenance estimate look lower or higher than expected?",
+    answer:
+      "Maintenance is an estimate. Real maintenance varies with NEAT, training volume, stress, sleep, and tracking precision. Use trend-based adjustments.",
+  },
+  {
+    question: "What if I am gaining too much body fat?",
+    answer:
+      "Reduce surplus size, improve food quality, keep protein high, and slow the gain rate. A slower bulk is usually easier to control and maintain.",
+  },
+  {
+    question: "Can women use this bulking calculator?",
+    answer:
+      "Yes. The formula includes sex-specific constants and works for both men and women. Use the same trend-based adjustment process.",
+  },
+  {
+    question: "Can older lifters use this tool?",
+    answer:
+      "Yes. Older lifters can still bulk effectively. Prioritize protein, recovery, resistance training quality, and conservative rate-of-gain targets.",
+  },
+  {
+    question: "Is this calculator suitable for beginners?",
+    answer:
+      "Yes. Beginners often respond very well to modest surpluses and consistent training. Start conservative and adjust based on weekly scale trend.",
+  },
+  {
+    question: "Should I do a mini-cut during a long bulk?",
+    answer:
+      "If fat gain outpaces your preference, a short mini-cut can help reset before continuing. Keep lifting hard and return to a controlled surplus after.",
+  },
+  {
+    question: "What unit system should I choose?",
+    answer:
+      "Use whichever system you track most consistently. The calculator supports both imperial and metric and produces equivalent outcomes.",
+  },
+  {
+    question: "How accurate is this compared with lab testing?",
+    answer:
+      "This is a planning tool, not a lab assessment. It is best used to set a starting target and then refined through real-world data over time.",
+  },
+  {
+    question: "Can this replace medical nutrition advice?",
+    answer:
+      "No. This tool provides general education and planning estimates only. For medical or condition-specific needs, work with a qualified professional.",
+  },
+  {
+    question: "How long should I bulk before reassessing?",
+    answer:
+      "Most people run a structured bulk for at least 8-16 weeks, reassessing weekly trend data and body composition markers along the way.",
+  },
+  {
+    question: "How do I contact support if I still have questions?",
+    answer: (
+      <>
+        Email{" "}
+        <a href="mailto:matt@leandme.com" className="text-primary">
+          matt@leandme.com
+        </a>{" "}
+        and include your stats, activity level, and current target so we can help faster.
+      </>
+    ),
   },
 ];
 
@@ -416,6 +531,25 @@ export default function BulkingCalorieCalculatorTool() {
                 <h3 className="text-xl font-semibold text-center text-gray-900">{step.title}</h3>
                 <p className="mt-3 text-lg leading-relaxed text-left text-gray-700">{step.description}</p>
               </article>
+            ))}
+          </div>
+        </div>
+
+        <div className="w-full max-w-5xl mx-auto mt-14">
+          <h2 className="text-3xl lg:text-4xl font-bold text-center mt-4">Bulking Calculator FAQ</h2>
+          <p className="py-6 text-lg mb-2 text-center">
+            Answers to common questions about calorie targets, surplus pacing, and bulking execution.
+          </p>
+
+          <div className="space-y-4">
+            {FAQ_ITEMS.map((item, idx) => (
+              <div key={`${item.question}-${idx}`} className="collapse collapse-plus border bg-base-500 rounded-lg">
+                <input type="radio" name="vulcan-calculator-faq-accordion" />
+                <div className="collapse-title text-lg lg:text-xl">{item.question}</div>
+                <div className="collapse-content">
+                  <div className="text-lg text-gray-700 leading-relaxed">{item.answer}</div>
+                </div>
+              </div>
             ))}
           </div>
         </div>
